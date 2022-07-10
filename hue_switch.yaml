@@ -1,0 +1,185 @@
+blueprint:
+  name: Philips Hue Switch
+  description: Philips Hue Switch
+  domain: automation
+  input:
+    light_switch:
+      name: Light Switch
+      selector:
+        device:
+          integration: hue
+    first_button_initial:
+      name: First Button Pressed Initially
+      description: Action to run on press of On button
+      default: []
+      selector:
+        action:
+    first_button_held:
+      name: First Button Held Down
+      description: Action to run on press of On button
+      default: []
+      selector:
+        action:
+    first_button_released_short:
+      name: First button released after short press
+      description: Action to run on press of On button
+      default: []
+      selector:
+        action:
+    first_button_released_long:
+      name: First button released after long press
+      description: Action to run on press of On button
+      default: []
+      selector:
+        action:
+    second_button_initial:
+      name: Second Button Pressed Initially
+      description: Action to run on press of On button
+      default: []
+      selector:
+        action:
+    second_button_held:
+      name: Second Button Held Down
+      description: Action to run on press of On button
+      default: []
+      selector:
+        action:
+    second_button_released_short:
+      name: Second button released after short press
+      description: Action to run on press of On button
+      default: []
+      selector:
+        action:
+    second_button_released_long:
+      name: Second button released after long press
+      description: Action to run on press of On button
+      default: []
+      selector:
+        action:
+    third_button_initial:
+      name: Third Button Pressed Initially
+      description: Action to run on press of On button
+      default: []
+      selector:
+        action:
+    third_button_held:
+      name: Third Button Held Down
+      description: Action to run on press of On button
+      default: []
+      selector:
+        action:
+    third_button_released_short:
+      name: Third button released after short press
+      description: Action to run on press of On button
+      default: []
+      selector:
+        action:
+    third_button_released_long:
+      name: Third button released after long press
+      description: Action to run on press of On button
+      default: []
+      selector:
+        action:
+    fourth_button_initial:
+      name: Fourth Button Pressed Initially
+      description: Action to run on press of On button
+      default: []
+      selector:
+        action:
+    fourth_button_held:
+      name: Fourth Button Held Down
+      description: Action to run on press of On button
+      default: []
+      selector:
+        action:
+    fourth_button_released_short:
+      name: Fourth button released after short press
+      description: Action to run on press of On button
+      default: []
+      selector:
+        action:
+    fourth_button_released_long:
+      name: Fourth button released after long press
+      description: Action to run on press of On button
+      default: []
+      selector:
+        action:
+
+mode: single
+trigger:
+  - platform: event
+    event_type: hue_event
+    event_data:
+      device_id: !input light_switch
+action:
+  - variables:
+      type: "{{ trigger.event.data.type }}"
+      subtype: "{{ trigger.event.data.subtype }}"
+  - choose:
+      - conditions:
+          - "{{ type == 'initial_press' }}"
+          - "{{ subtype == 1 }}"
+        sequence: !input first_button_initial
+      - conditions:
+          - "{{ type == 'initial_press' }}"
+          - "{{ subtype == 2 }}"
+        sequence: !input second_button_initial
+      - conditions:
+          - "{{ type == 'initial_press' }}"
+          - "{{ subtype == 3 }}"
+        sequence: !input third_button_initial
+      - conditions:
+          - "{{ type == 'initial_press' }}"
+          - "{{ subtype == 4 }}"
+        sequence: !input fourth_button_initial
+
+      - conditions:
+          - "{{ type == 'repeat' }}"
+          - "{{ subtype == 1 }}"
+        sequence: !input first_button_held
+      - conditions:
+          - "{{ type == 'repeat' }}"
+          - "{{ subtype == 2 }}"
+        sequence: !input second_button_held
+      - conditions:
+          - "{{ type == 'repeat' }}"
+          - "{{ subtype == 3 }}"
+        sequence: !input third_button_held
+      - conditions:
+          - "{{ type == 'repeat' }}"
+          - "{{ subtype == 4 }}"
+        sequence: !input fourth_button_held
+
+      - conditions:
+          - "{{ type == 'short_release' }}"
+          - "{{ subtype == 1 }}"
+        sequence: !input first_button_released_short
+      - conditions:
+          - "{{ type == 'short_release' }}"
+          - "{{ subtype == 2 }}"
+        sequence: !input second_button_released_short
+      - conditions:
+          - "{{ type == 'short_release' }}"
+          - "{{ subtype == 3 }}"
+        sequence: !input third_button_released_short
+      - conditions:
+          - "{{ type == 'short_release' }}"
+          - "{{ subtype == 4 }}"
+        sequence: !input fourth_button_released_short
+
+      - conditions:
+          - "{{ type == 'long_release' }}"
+          - "{{ subtype == 1 }}"
+        sequence: !input first_button_released_long
+      - conditions:
+          - "{{ type == 'long_release' }}"
+          - "{{ subtype == 2 }}"
+        sequence: !input second_button_released_long
+      - conditions:
+          - "{{ type == 'long_release' }}"
+          - "{{ subtype == 3 }}"
+        sequence: !input third_button_released_long
+      - conditions:
+          - "{{ type == 'long_release' }}"
+          - "{{ subtype == 4 }}"
+        sequence: !input fourth_button_released_long
